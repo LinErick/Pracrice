@@ -32,13 +32,13 @@ namespace SqlConnect
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IDemoDI, DemoDI>();
-            services.AddSingleton<IModuleService, DemoTable>();
+            services.AddSingleton<IModuleService, DemoModuleService>();
             services.AddSingleton<IDemoReporsitory, Database>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "SqlConnect", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ApiExample", Version = "v1" });
             });
         }
 
@@ -49,7 +49,7 @@ namespace SqlConnect
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SqlConnect v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ApiExample v1"));
             }
 
             app.UseHttpsRedirection();
@@ -58,15 +58,9 @@ namespace SqlConnect
 
             app.UseAuthorization();
 
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapControllers();
-            //});
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Test}/{action=Index}/{id?}");
+                endpoints.MapControllers();
             });
         }
     }

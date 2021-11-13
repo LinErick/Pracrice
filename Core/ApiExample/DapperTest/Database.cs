@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿using BusinessService.Request;
+using Dapper;
 using ModuleService;
 using System;
 using System.Collections.Generic;
@@ -17,15 +18,28 @@ namespace DapperTest
         {
             sqlConnection = new SqlConnection("Data Source =.\\SQLExpress; Initial Catalog = TESTDB; Integrated Security = False; uid = sa; password = 123456");
         }
+
+        public void Delete(DemoDelete demoDelete)
+        {
+            sqlConnection.Execute(@"Delete Demo Where SN=@SN", demoDelete);
+        }
+
+        public void Insert(DemoAdd demoAdd)
+        {
+            sqlConnection.Execute(@"Insert Demo([Date],[Commit])
+                                    Values(GETDATE(), @Commit)", demoAdd);
+        }
+
         public IEnumerable<T> Select<T>(string SelectSyntax)
         {
-            //using var connect = new SqlConnection(@"Data Source =DESKTOP-F0PUC0R\SQLEXPRESS; Initial Catalog = TESTDB; Integrated Security = False; uid = sa; password = 123456");
             return sqlConnection.Query<T>(SelectSyntax);
         }
 
-        public IEnumerable<T> Select<T>(string selectSyntax, SqlParameter[] sqlParameter)
+        public void Update(DemoUpdate demoUpdate)
         {
-            throw new NotImplementedException();
+            sqlConnection.Execute(@"Update Demo
+                                    Set [Commit]=@Commit
+                                    Where SN=@SN", demoUpdate);
         }
     }
 }

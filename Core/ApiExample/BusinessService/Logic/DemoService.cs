@@ -18,5 +18,17 @@ namespace BusinessService.Logic
         {
             return moduleService.Get<T>();
         }
+        public void Add(Request.DemoAdd demoAdd)
+        {
+            moduleService.Add(demoAdd);
+        }
+        public void Update(Request.DemoUpdate demoUpdate)
+        {
+            moduleService.Update(demoUpdate);
+        }
+        public void Delete(Request.DemoDelete demoDelete)
+        {
+            moduleService.Delete(demoDelete);
+        }
     }
 }
