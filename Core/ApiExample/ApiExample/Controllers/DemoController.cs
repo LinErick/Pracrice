@@ -13,52 +13,43 @@ namespace SqlConnect.Controllers
     [Route("[controller]/[action]")]
     public class DemoController : ControllerBase
     {
-        readonly IDemoDI logic;
-        readonly IModuleService moduleService;
-        public DemoController(IDemoDI logic,IModuleService moduleService)
+        readonly DemoService demoService;
+        public DemoController(IModuleService moduleService)
         {
-            this.logic = logic;
-            this.moduleService = moduleService;
-        }
-
-        
-        [HttpGet]
-        [Route("[controller]")]
-        public ActionResult Index()
-        {
-            return Ok(logic.Get());
+            this.demoService = new(moduleService);
         }
 
         [HttpGet]
-        [Route("[controller]/{id}/{title}")]
-        public ActionResult Get(string id,string title)
+        public ActionResult Get()
         {
-            return Ok(logic.Get(id, title));
-        }
+            IEnumerable<Demo> result = demoService.Get<Demo>();
 
-        [HttpGet]
-        public ActionResult GetSql()
-        {
-            DemoService demo = new(moduleService);
-            IEnumerable<Demo> result = demo.Get<Demo>();
             return Ok(result);
         }
 
         [HttpPost]
-        public ActionResult InsertSql()
+        public ActionResult Add([FromForm]BusinessService.Request.DemoAdd demoAdd)
         {
+            demoService.Add(demoAdd);
+
             return Ok();
         }
 
         [HttpPost]
-        public ActionResult DeleteSql()
+        public ActionResult Delete(List<BusinessService.Request.DemoDelete> demoDeletes )
         {
+            foreach (BusinessService.Request.DemoDelete demoDelete in demoDeletes)
+                demoService.Delete(demoDelete);
+
             return Ok();
         }
 
         [HttpPost]
-        public ActionResult UpdateSql()
+        public ActionResult Update(List<BusinessService.Request.DemoUpdate> demoUpdates)
         {
+            foreach (BusinessService.Request.DemoUpdate demoUpdate in demoUpdates)
+                demoService.Update(demoUpdate);
+
             return Ok();
         }
     }
