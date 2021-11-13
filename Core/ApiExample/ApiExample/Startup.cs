@@ -35,7 +35,12 @@ namespace SqlConnect
             services.AddSingleton<IModuleService, DemoModuleService>();
             services.AddSingleton<IDemoReporsitory, Database>();
 
-            services.AddControllers();
+            services.AddControllers()
+                .ConfigureApiBehaviorOptions(o=>
+            {
+
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ApiExample", Version = "v1" });
