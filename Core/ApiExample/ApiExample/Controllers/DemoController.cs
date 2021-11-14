@@ -4,7 +4,9 @@ using BusinessService.Logic;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SqlConnect.Controllers
@@ -17,6 +19,7 @@ namespace SqlConnect.Controllers
         public DemoController(IModuleService moduleService)
         {
             this.demoService = new(moduleService);
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("zh-TW");
         }
 
         [HttpGet]
@@ -28,7 +31,7 @@ namespace SqlConnect.Controllers
         }
 
         [HttpPost]
-        public ActionResult Add([FromForm]BusinessService.Request.DemoAdd demoAdd)
+        public ActionResult Add([FromForm] BusinessService.Request.DemoAdd demoAdd)
         {
             demoService.Add(demoAdd);
 
@@ -36,7 +39,7 @@ namespace SqlConnect.Controllers
         }
 
         [HttpPost]
-        public ActionResult Delete(List<BusinessService.Request.DemoDelete> demoDeletes )
+        public ActionResult Delete(List<BusinessService.Request.DemoDelete> demoDeletes)
         {
             foreach (BusinessService.Request.DemoDelete demoDelete in demoDeletes)
                 demoService.Delete(demoDelete);
@@ -47,8 +50,15 @@ namespace SqlConnect.Controllers
         [HttpPost]
         public ActionResult Update(List<BusinessService.Request.DemoUpdate> demoUpdates)
         {
-            foreach (BusinessService.Request.DemoUpdate demoUpdate in demoUpdates)
-                demoService.Update(demoUpdate);
+            try
+            {
+                foreach (BusinessService.Request.DemoUpdate demoUpdate in demoUpdates)
+                    demoService.Update(demoUpdate);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
+            }
 
             return Ok();
         }

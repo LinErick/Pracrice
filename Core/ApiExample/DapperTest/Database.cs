@@ -37,9 +37,12 @@ namespace DapperTest
 
         public void Update(DemoUpdate demoUpdate)
         {
-            sqlConnection.Execute(@"Update Demo
-                                    Set [Commit]=@Commit
-                                    Where SN=@SN", demoUpdate);
+            string sql = @"Update Demo
+                            Set [Commit]=@Commit
+                            Where SN=@SN";
+
+            if (sqlConnection.Execute(sql, demoUpdate) == 0)
+                throw new ArgumentException("No Data Update","Update");
         }
     }
 }

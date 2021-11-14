@@ -10,7 +10,9 @@ namespace BusinessService.Request
     public class DemoUpdate
     {
         [Required]
+        [Range(1, 2147483647, ErrorMessageResourceType = (typeof(Resource.DemoResource)), ErrorMessageResourceName = "TestResource")]
         public int SN { set; get; }
+        [Required(AllowEmptyStrings = true)]
         public string Commit { set; get; }
     }
 }
