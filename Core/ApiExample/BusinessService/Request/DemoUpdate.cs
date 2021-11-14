@@ -10,9 +10,9 @@ namespace BusinessService.Request
     public class DemoUpdate
     {
         [Required]
-        [Range(1,99999,ErrorMessage = "參數 SN 範圍錯誤。")]
+        [Range(1, 2147483647, ErrorMessageResourceType = (typeof(Resource.DemoResource)), ErrorMessageResourceName = "TestResource")]
         public int SN { set; get; }
-        [Required]
+        [Required(AllowEmptyStrings = true)]
         public string Commit { set; get; }
     }
 }

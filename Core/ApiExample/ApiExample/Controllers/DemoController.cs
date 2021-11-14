@@ -4,7 +4,9 @@ using BusinessService.Logic;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SqlConnect.Controllers
@@ -17,6 +19,7 @@ namespace SqlConnect.Controllers
         public DemoController(IModuleService moduleService)
         {
             this.demoService = new(moduleService);
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("zh-TW");
         }
 
         [HttpGet]

@@ -3,7 +3,9 @@ using BusinessService.Logic;
 using DapperTest;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,7 +16,9 @@ using ModuleService;
 using ModuleService.Table;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SqlConnect
@@ -35,10 +39,9 @@ namespace SqlConnect
             services.AddSingleton<IModuleService, DemoModuleService>();
             services.AddSingleton<IDemoReporsitory, Database>();
 
-            services.AddControllers()
-                .ConfigureApiBehaviorOptions(o=>
+            services.AddControllers().ConfigureApiBehaviorOptions(o =>
             {
-
+                
             });
 
             services.AddSwaggerGen(c =>
@@ -56,6 +59,22 @@ namespace SqlConnect
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ApiExample v1"));
             }
+
+            var defaultDateCulture = "zh-CN";
+            var ci = new CultureInfo(defaultDateCulture);
+
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture(ci),
+                SupportedCultures = new List<CultureInfo>
+                {
+                    ci,
+                },
+                SupportedUICultures = new List<CultureInfo>
+                {
+                    ci,
+                }
+            });
 
             app.UseHttpsRedirection();
 
