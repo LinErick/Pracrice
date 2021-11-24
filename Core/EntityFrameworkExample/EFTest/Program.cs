@@ -1,5 +1,5 @@
-﻿using EFTest.DTO;
-using Reporsity;
+﻿using Reporsity;
+using Reporsity.DTO;
 using System;
 
 namespace EF
@@ -10,10 +10,12 @@ namespace EF
         {
             Console.WriteLine("Hello World!");
 
-            var sql = new NewTableContext();
+            var sql = new DemoTableContext();
+
+            sql.Database.CreateIfNotExists();
 
             //Insert
-            var insertData = new DemoTableEF { CreateDate = DateTime.Now, Comment = "TestEF" };
+            var insertData = new DemoTable { CreateDate = DateTime.Now, Comment = "TestEF" };
             sql.DemoTableEFs.Add(insertData);
             sql.SaveChanges();
 
@@ -22,6 +24,9 @@ namespace EF
             if (selectData != null)
             {
                 Console.WriteLine(string.Format("{0} {1} {2}", selectData.SN, selectData.CreateDate, selectData.Comment));
+
+                sql.DemoTableDetails.Add(new DemoTableDetail { DemoTableSN = selectData.SN });
+                sql.SaveChanges();
 
                 //Update
                 sql.DemoTableEFs.Attach(selectData);
@@ -36,6 +41,8 @@ namespace EF
                 sql.DemoTableEFs.Remove(deleteData);
                 sql.SaveChanges();
             }
+
+            var selectEmployee = sql.Employees.Find(1);
         }
     }
   

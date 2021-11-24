@@ -1,0 +1,5 @@
+dotnet ef migrations --help
+
+Enable-Migrations
+Add-Migration InitialCreate
+Update-Database
