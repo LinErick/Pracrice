@@ -6,15 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EFTest.DTO
+namespace Reporsity.DTO
 {
-    [Table("DemoTableEF")]
-    public class DemoTableEF
+    [Table("ef.Employee")]
+    public class Employee
     {
         [Key]
         public int SN { set; get; }
-        public DateTime CreateDate { set; get; }
-        public DateTime? UpdateDate { set; get; } = null;
-        public string Comment { set; get; } 
+        public string Name { set; get; }
     }
 }
