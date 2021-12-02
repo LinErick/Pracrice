@@ -1,5 +1,6 @@
 ﻿using BusinessService.DI;
 using BusinessService.Dto;
+using BusinessService.ILogic;
 using BusinessService.Logic;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -15,10 +16,10 @@ namespace SqlConnect.Controllers
     [Route("[controller]/[action]")]
     public class DemoController : ControllerBase
     {
-        readonly DemoService demoService;
+        readonly IDemoService demoService;
         public DemoController(IModuleService moduleService)
         {
-            this.demoService = new(moduleService);
+            this.demoService = new DemoService(moduleService);
             Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("zh-TW");
         }
 

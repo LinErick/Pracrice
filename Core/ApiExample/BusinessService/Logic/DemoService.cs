@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessService.ILogic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BusinessService.Logic
 {
-    public class DemoService
+    public class DemoService: IDemoService
     {
         private readonly IModuleService moduleService;
         public DemoService(IModuleService moduleService)
