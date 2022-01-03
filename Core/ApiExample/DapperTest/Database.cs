@@ -1,4 +1,5 @@
-﻿using BusinessService.Request;
+﻿using BusinessService.DI;
+using BusinessService.Request;
 using Dapper;
 using ModuleService;
 using System;
@@ -12,11 +13,11 @@ namespace DapperTest
 {
     public class Database: IDemoReporsitory
     {
-        SqlConnection sqlConnection;
+        readonly SqlConnection sqlConnection;
 
-        public Database()
+        public Database(DatabaseConnect connect)
         {
-            sqlConnection = new SqlConnection("Data Source =.\\SQLExpress; Initial Catalog = TESTDB; Integrated Security = False; uid = sa; password = 123456");
+            sqlConnection = new SqlConnection(connect.SqlConnect);
         }
 
         public void Delete(DemoDelete demoDelete)

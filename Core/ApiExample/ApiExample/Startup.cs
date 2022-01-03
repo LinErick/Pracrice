@@ -1,3 +1,5 @@
+using ApiExample;
+using Autofac;
 using BusinessService.DI;
 using BusinessService.Logic;
 using DapperTest;
@@ -42,6 +44,13 @@ namespace SqlConnect
             services.AddSingleton<IDemoDI, DemoDI>();
             services.AddSingleton<IModuleService, DemoModuleService>();
             services.AddSingleton<IDemoReporsitory, Database>();
+            services.AddSingleton(p => {
+                var config = new DemoSettingDI();
+                var section = Configuration.GetSection("DemoSettingDI");
+                section.Bind(config);
+                return config;
+            });
+
 
             //ª`¤JOption
             services.AddOptions();
@@ -142,6 +151,13 @@ namespace SqlConnect
             {
                 endpoints.MapControllers();
             });
+        }
+
+        //Autofac DI
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            var sqlConnect = Configuration.GetSection("ConnectionStrings").Get<DatabaseConnect>();
+            builder.RegisterInstance(sqlConnect).As<DatabaseConnect>();
         }
     }
 }

@@ -11,6 +11,6 @@ namespace BusinessService.Dto
     {
         public int SN { set; get; }
         public DateTime Date { set; get; }
-        public String Commit { set; get; }
+        public string Commit { set; get; }
     }
 }

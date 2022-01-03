@@ -18,8 +18,8 @@ namespace ApiExample.Controllers
     [Route("[controller]/[action]")]
     public class JwtController : ControllerBase
     {
-        string Secret;
-        AppSettings settings;
+        readonly string Secret;
+        readonly AppSettings settings;
         public JwtController(IConfiguration configuration, IOptions<AppSettings> appSettings)
         {
             Secret = configuration.GetValue<string>("AppSettings:Secret");
